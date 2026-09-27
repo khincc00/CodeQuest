@@ -263,3 +263,4 @@ dialog.lebar{width:min(860px,calc(100% - 28px))}
 .pilih-bahasa button{border:0;background:transparent;color:var(--tinta);font:inherit;font-size:13px;font-weight:700;padding:4px 10px;cursor:pointer}
 .pilih-bahasa button[aria-pressed="true"]{background:var(--tinta);color:var(--kertas)}
 .pilih-bahasa button:focus-visible{outline:2px solid var(--lampu);outline-offset:-2px}
+

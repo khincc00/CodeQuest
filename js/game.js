@@ -4475,3 +4475,4 @@ aturJam(); setInterval(aturJam, 30000);
 if (S.akhir) lore('akhir'); else if (S.multiverse && S.bab <= 8) lore('retak');
 if (window.innerWidth < 600) modePratinjau(true);
 muatUlangUI();
+
