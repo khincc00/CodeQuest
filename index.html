@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<!--
+  CodeQuest — Studio Kecil
+  Struktur halaman: adegan studio (SVG), layar judul, studio, ruang kerja, dan dialog.
+  Tampilan ada di css/style.css, logika game di js/game.js.
+-->
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CodeQuest — Studio Kecil</title>
+<meta name="description" content="Game santai berbahasa Indonesia: jadi web developer freelance, kerjakan pesanan klien sungguhan, dan belajar HTML, CSS, dan JavaScript sambil menata studio kecilmu.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☕</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&family=Patrick+Hand&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Scene (shared by title & studio) -->
+<svg id="scene" class="scene" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" aria-hidden="false" role="img" aria-label="Studio kecil di malam hujan">
+  <defs>
+    <linearGradient id="langit" x1="0" y1="0" x2="0" y2="1">
+      <stop id="langit1" offset="0" stop-color="#E9A97C"/>
+      <stop id="langit2" offset="1" stop-color="#F3D1A0"/>
+    </linearGradient>
+    <radialGradient id="cahaya" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#F4C979" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#F4C979" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="layarGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#CFE0E8" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#CFE0E8" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="kaca"><rect x="128" y="78" width="344" height="234"/></clipPath>
+  </defs>
+
+  <rect id="dinding" width="1000" height="600" fill="#2E3A55"/>
+  <rect id="lantai" y="455" width="1000" height="145" fill="#28334C"/>
+
+  <!-- star projector (item): soft dots on the wall -->
+  <g id="item-bintang" class="item" fill="#F4E7C3">
+    <circle class="kelip" cx="540" cy="40" r="1.6"/><circle class="kelip" cx="600" cy="64" r="1.2"/><circle class="kelip" cx="690" cy="30" r="1.8"/>
+    <circle class="kelip" cx="760" cy="72" r="1.3"/><circle class="kelip" cx="820" cy="24" r="1.5"/><circle class="kelip" cx="960" cy="52" r="1.7"/>
+    <circle class="kelip" cx="70" cy="40" r="1.4"/><circle class="kelip" cx="40" cy="120" r="1.2"/><circle class="kelip" cx="980" cy="140" r="1.3"/>
+    <circle class="kelip" cx="720" cy="120" r="1.1"/><circle class="kelip" cx="520" cy="110" r="1.2"/><circle class="kelip" cx="640" cy="18" r="1.3"/>
+  </g>
+
+  <!-- window -->
+  <g>
+    <rect x="128" y="78" width="344" height="234" fill="url(#langit)"/>
+    <g clip-path="url(#kaca)">
+      <path d="M128 312 L128 250 L160 250 L160 228 L196 228 L196 262 L230 262 L230 206 L262 206 L262 244 L300 244 L300 190 L338 190 L338 236 L372 236 L372 218 L410 218 L410 256 L440 256 L440 232 L472 232 L472 312 Z" fill="#1B2140" opacity=".78"/>
+      <g id="lampuKota" opacity="0" fill="#F4C979">
+        <rect x="170" y="238" width="5" height="6"/><rect x="238" y="216" width="5" height="6"/><rect x="248" y="232" width="5" height="6"/>
+        <rect x="310" y="202" width="5" height="6"/><rect x="322" y="220" width="5" height="6"/><rect x="310" y="262" width="5" height="6"/>
+        <rect x="384" y="230" width="5" height="6"/><rect x="420" y="266" width="5" height="6"/><rect x="452" y="244" width="5" height="6"/>
+        <rect x="206" y="274" width="5" height="6"/><rect x="348" y="250" width="5" height="6"/>
+      </g>
+      <!-- chapter 2: morning sun, drifting clouds, birds -->
+      <g id="lapisPagi" style="display:none">
+        <circle cx="400" cy="128" r="46" fill="#FFF1C9" opacity=".45"/>
+        <circle cx="400" cy="128" r="26" fill="#FFE7A8"/>
+        <g class="awan" fill="#FFFFFF" opacity=".85">
+          <ellipse cx="190" cy="120" rx="34" ry="12"/><ellipse cx="212" cy="112" rx="22" ry="12"/>
+          <ellipse cx="330" cy="160" rx="28" ry="9"/><ellipse cx="346" cy="154" rx="16" ry="9"/>
+        </g>
+        <g class="burung" fill="none" stroke="#3A4466" stroke-width="2" stroke-linecap="round">
+          <path d="M200 150 q6 -6 12 0 q6 -6 12 0"/><path d="M232 138 q4 -4 8 0 q4 -4 8 0"/>
+        </g>
+      </g>
+      <!-- chapter 3: moon and stars -->
+      <g id="lapisMalam" style="display:none">
+        <g fill="#F4EBD0">
+          <circle class="kelip" cx="160" cy="100" r="1.6"/><circle class="kelip" cx="210" cy="140" r="1.2"/><circle class="kelip" cx="250" cy="96" r="1.8"/>
+          <circle class="kelip" cx="330" cy="120" r="1.3"/><circle class="kelip" cx="360" cy="90" r="1.1"/><circle class="kelip" cx="450" cy="160" r="1.5"/>
+          <circle class="kelip" cx="190" cy="176" r="1.2"/><circle class="kelip" cx="290" cy="172" r="1.4"/><circle class="kelip" cx="440" cy="104" r="1.2"/>
+        </g>
+        <circle cx="400" cy="130" r="20" fill="#F4EBD0"/>
+        <circle id="bayangBulan" cx="410" cy="124" r="17" fill="#1B1E42"/>
+      </g>
+      <!-- chapter 4: hot noon, a clothesline outside -->
+      <g id="lapisSiang" style="display:none">
+        <circle cx="250" cy="112" r="54" fill="#FFFBEA" opacity=".5"/>
+        <circle cx="250" cy="112" r="30" fill="#FFF6D2"/>
+        <path d="M128 150 Q300 176 472 146" fill="none" stroke="#5A4A3A" stroke-width="1.6"/>
+        <g class="jemuran">
+          <path d="M170 156 l-12 6 l6 10 l6 -3 v26 h24 v-26 l6 3 l6 -10 l-12 -6 q-6 6 -12 0 z" fill="#E57373"/>
+          <rect x="226" y="161" width="30" height="36" rx="2" fill="#F7F1E3"/>
+          <path d="M280 163 l-10 5 l5 9 l5 -3 v24 h22 v-24 l5 3 l5 -9 l-10 -5 q-6 5 -12 0 z" fill="#4F9BD1"/>
+          <rect x="336" y="162" width="22" height="30" rx="2" fill="#86A97E"/>
+          <path d="M390 158 l-11 6 l6 9 l5 -3 v25 h22 v-25 l5 3 l6 -9 l-11 -6 q-6 5 -11 0 z" fill="#F4C979"/>
+        </g>
+        <g fill="#5A4A3A"><rect x="178" y="152" width="3" height="7"/><rect x="238" y="157" width="3" height="7"/><rect x="288" y="159" width="3" height="7"/><rect x="345" y="158" width="3" height="7"/><rect x="398" y="154" width="3" height="7"/></g>
+      </g>
+      <!-- chapter 5: red-and-white bunting and distant fireworks -->
+      <g id="lapisMeriah" style="display:none">
+        <g fill="#F4C979"><circle class="kelip" cx="190" cy="126" r="2"/><circle class="kelip" cx="206" cy="118" r="1.6"/><circle class="kelip" cx="176" cy="116" r="1.4"/><circle class="kelip" cx="392" cy="140" r="2"/><circle class="kelip" cx="410" cy="130" r="1.5"/><circle class="kelip" cx="376" cy="128" r="1.3"/></g>
+        <path d="M128 96 Q300 132 472 96" fill="none" stroke="#3A2E2A" stroke-width="1.4"/>
+        <g class="bendera">
+          <path d="M140 99 l16 3 l-9 16 z" fill="#D32F2F"/><path d="M162 104 l16 3 l-9 16 z" fill="#F7F1E3"/>
+          <path d="M186 108 l16 3 l-9 16 z" fill="#D32F2F"/><path d="M210 112 l16 2 l-9 16 z" fill="#F7F1E3"/>
+          <path d="M236 114 l16 1 l-9 16 z" fill="#D32F2F"/><path d="M262 115 l16 0 l-8 16 z" fill="#F7F1E3"/>
+          <path d="M290 115 l16 0 l-8 16 z" fill="#D32F2F"/><path d="M318 115 l16 -1 l-7 16 z" fill="#F7F1E3"/>
+          <path d="M346 113 l16 -2 l-7 16 z" fill="#D32F2F"/><path d="M372 110 l16 -3 l-7 16 z" fill="#F7F1E3"/>
+          <path d="M398 106 l16 -3 l-7 16 z" fill="#D32F2F"/><path d="M424 101 l16 -3 l-7 15 z" fill="#F7F1E3"/>
+        </g>
+      </g>
+      <!-- chapter 6: low grey clouds and mist -->
+      <g id="lapisMendung" style="display:none">
+        <g fill="#8C9599" opacity=".9" class="awan">
+          <ellipse cx="170" cy="104" rx="70" ry="22"/><ellipse cx="230" cy="94" rx="50" ry="20"/>
+          <ellipse cx="360" cy="110" rx="80" ry="24"/><ellipse cx="430" cy="96" rx="50" ry="18"/>
+        </g>
+        <rect x="128" y="220" width="344" height="92" fill="#C3C9C6" opacity=".28"/>
+      </g>
+      <!-- chapter 7: storm clouds and a lightning bolt shown during flashes -->
+      <g id="lapisBadai" style="display:none">
+        <g fill="#141726" opacity=".9">
+          <ellipse cx="160" cy="92" rx="80" ry="28"/><ellipse cx="260" cy="84" rx="70" ry="26"/>
+          <ellipse cx="370" cy="96" rx="90" ry="30"/><ellipse cx="450" cy="86" rx="50" ry="22"/>
+        </g>
+        <path class="petir" d="M352 104 L336 150 L350 150 L330 206 L372 138 L356 138 L370 104 Z" fill="#F4EBD0"/>
+      </g>
+      <!-- chapter 9: the successful timeline, a lit skyline and a billboard -->
+      <g id="lapisSukses" style="display:none">
+        <circle cx="424" cy="116" r="15" fill="#FFE9B0"/><circle cx="424" cy="116" r="28" fill="#FFE9B0" opacity=".18"/>
+        <g fill="#FFF6DA"><circle class="kelip" cx="170" cy="100" r="1.4"/><circle class="kelip" cx="260" cy="92" r="1.2"/><circle class="kelip" cx="360" cy="104" r="1.5"/><circle class="kelip" cx="220" cy="120" r="1.1"/></g>
+        <g stroke="#1B2140" stroke-width="3"><line x1="200" y1="176" x2="200" y2="214"/><line x1="272" y1="176" x2="272" y2="214"/></g>
+        <rect x="164" y="136" width="144" height="42" rx="3" fill="#1B2140" stroke="#E9C46A" stroke-width="2"/>
+        <text x="236" y="154" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#E9C46A">WARUNG KOPI SENJA</text>
+        <text x="236" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="10" fill="#FFF1C9">3 CABANG</text>
+        <g fill="#F4C979"><rect x="140" y="264" width="5" height="6"/><rect x="182" y="246" width="5" height="6"/><rect x="272" y="222" width="5" height="6"/><rect x="286" y="252" width="5" height="6"/><rect x="354" y="244" width="5" height="6"/><rect x="398" y="230" width="5" height="6"/><rect x="430" y="262" width="5" height="6"/><rect x="458" y="276" width="5" height="6"/></g>
+      </g>
+      <g id="rainFall" stroke="#D7E3EC" stroke-width="1.4" stroke-linecap="round" opacity=".45"></g>
+    </g>
+    <rect x="121" y="71" width="358" height="248" fill="none" stroke="#7A4E33" stroke-width="14" rx="3"/>
+    <line x1="300" y1="78" x2="300" y2="312" stroke="#7A4E33" stroke-width="8"/>
+    <line x1="128" y1="195" x2="472" y2="195" stroke="#7A4E33" stroke-width="8"/>
+    <rect x="106" y="318" width="388" height="14" rx="3" fill="#9A6744"/>
+  </g>
+
+  <!-- crack in the glass (after the portal glitch) -->
+  <g id="item-retak" class="item" fill="none" stroke="#E8F1FF" stroke-width="1.6" stroke-linecap="round" opacity=".85">
+    <path d="M388 150 L360 120 L346 88 M360 120 L330 128 L300 118 M388 150 L420 132 L452 142 M388 150 L398 190 L382 232 M398 190 L436 206 M388 150 L352 176 L322 214"/>
+    <circle cx="388" cy="150" r="5"/>
+  </g>
+
+  <!-- vase (gift, bab 2) -->
+  <g id="item-vas" class="item" transform="translate(-70 0)">
+    <g fill="none" stroke="#6E8C6A" stroke-width="3" stroke-linecap="round">
+      <path d="M440 266 q-8 -22 -22 -30"/><path d="M446 266 q2 -30 -2 -46"/><path d="M452 266 q10 -20 20 -26"/>
+    </g>
+    <circle cx="416" cy="234" r="9" fill="#C8434F"/><circle cx="444" cy="218" r="9" fill="#F2B632"/><circle cx="472" cy="238" r="8" fill="#F7F3EA"/>
+    <circle cx="444" cy="218" r="3" fill="#8A5A2B"/>
+    <path d="M430 318 q-6 -30 6 -54 h20 q12 24 6 54 z" fill="#5E6E96"/>
+    <path d="M436 264 h20" stroke="#4B5A80" stroke-width="3"/>
+  </g>
+
+  <!-- string lights (item) -->
+  <g id="item-lampu" class="item">
+    <path d="M118 74 Q200 104 300 80 Q400 104 482 74" fill="none" stroke="#1a1f33" stroke-width="2"/>
+    <g fill="#F4C979">
+      <circle cx="146" cy="85" r="5"/><circle cx="182" cy="93" r="5"/><circle cx="220" cy="95" r="5"/><circle cx="260" cy="90" r="5"/>
+      <circle cx="340" cy="90" r="5"/><circle cx="380" cy="95" r="5"/><circle cx="418" cy="93" r="5"/><circle cx="454" cy="85" r="5"/>
+    </g>
+    <g fill="#F4C979" opacity=".22">
+      <circle cx="146" cy="85" r="14"/><circle cx="182" cy="93" r="14"/><circle cx="220" cy="95" r="14"/><circle cx="260" cy="90" r="14"/>
+      <circle cx="340" cy="90" r="14"/><circle cx="380" cy="95" r="14"/><circle cx="418" cy="93" r="14"/><circle cx="454" cy="85" r="14"/>
+    </g>
+  </g>
+
+  <!-- poster (item) -->
+  <g id="item-poster" class="item">
+    <rect x="560" y="92" width="112" height="150" fill="#EFE6D2" rx="2"/>
+    <rect x="570" y="102" width="92" height="108" fill="#D9C7A4"/>
+    <circle cx="630" cy="132" r="14" fill="#D08C8C"/>
+    <path d="M570 210 L600 160 L622 186 L640 164 L662 210 Z" fill="#6E8C6A"/>
+    <path d="M570 210 L590 184 L606 210 Z" fill="#86A97E"/>
+    <text x="616" y="230" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="14" fill="#232638" data-en="slow down">pelan-pelan</text>
+  </g>
+
+  <!-- cork board for client gifts (bab 4, 5, 7) -->
+  <g id="item-papan" class="item">
+    <rect x="828" y="232" width="134" height="100" rx="4" fill="#B98A5A" stroke="#7A4E33" stroke-width="5"/>
+    <g fill="#A57848" opacity=".5"><circle cx="850" cy="250" r="2"/><circle cx="900" cy="310" r="2"/><circle cx="940" cy="262" r="2"/><circle cx="870" cy="318" r="1.6"/></g>
+    <g id="item-nota" class="item">
+      <rect x="840" y="244" width="40" height="54" fill="#FFFFFF" transform="rotate(-5 860 270)"/>
+      <g stroke="#9AA5B1" stroke-width="2" transform="rotate(-5 860 270)"><line x1="846" y1="256" x2="874" y2="256"/><line x1="846" y1="264" x2="870" y2="264"/><line x1="846" y1="272" x2="874" y2="272"/></g>
+      <text x="860" y="290" text-anchor="middle" font-family="Courier New, monospace" font-weight="700" font-size="9" fill="#C62828" transform="rotate(-12 860 288)">LUNAS</text>
+      <circle cx="860" cy="246" r="3" fill="#D08C8C"/>
+    </g>
+    <g id="item-stiker" class="item">
+      <circle cx="912" cy="266" r="18" fill="#FFFFFF" stroke="#C62828" stroke-width="3"/>
+      <path d="M896 266 A16 16 0 0 1 928 266 Z" fill="#C62828"/>
+      <text x="912" y="282" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="8" fill="#C62828">17-AN</text>
+    </g>
+    <g id="item-plakat" class="item">
+      <rect x="888" y="292" width="62" height="32" rx="3" fill="#1F6F5C"/>
+      <rect x="892" y="296" width="54" height="24" rx="2" fill="none" stroke="#F2E6B8" stroke-width="1.2"/>
+      <text x="919" y="306" text-anchor="middle" font-family="Georgia, serif" font-size="6.5" fill="#F2E6B8">MITRA DIGITAL</text>
+      <text x="919" y="315" text-anchor="middle" font-family="Georgia, serif" font-size="6.5" fill="#F2E6B8">KEL. SENGATA</text>
+    </g>
+  </g>
+
+  <!-- studio name sign (ending) -->
+  <g id="item-papanNama" class="item">
+    <g stroke="#232638" stroke-width="2"><line x1="444" y1="0" x2="444" y2="18"/><line x1="576" y1="0" x2="576" y2="18"/></g>
+    <rect x="412" y="16" width="196" height="46" rx="6" fill="#2B2A33" stroke="#C99A55" stroke-width="3"/>
+    <text id="papanTeks" x="510" y="46" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="22" fill="#F4C979" lengthAdjust="spacingAndGlyphs">STUDIO KAMU</text>
+  </g>
+
+  <!-- guitar (gift, bab 3) -->
+  <g id="item-gitar" class="item">
+    <line x1="524" y1="70" x2="524" y2="92" stroke="#232638" stroke-width="2"/>
+    <rect x="518" y="84" width="12" height="18" rx="2" fill="#5A3A2A"/>
+    <rect x="521" y="100" width="6" height="96" fill="#7A4E33"/>
+    <ellipse cx="524" cy="204" rx="19" ry="17" fill="#C98A52"/>
+    <ellipse cx="524" cy="238" rx="25" ry="23" fill="#C98A52"/>
+    <circle cx="524" cy="218" r="7" fill="#3B2B25"/>
+    <rect x="516" y="244" width="16" height="4" rx="1" fill="#3B2B25"/>
+  </g>
+
+  <!-- wall clock (item) -->
+  <g id="item-jam" class="item">
+    <circle cx="890" cy="76" r="30" fill="#EFE6D2" stroke="#7A4E33" stroke-width="5"/>
+    <g fill="#7A4E33"><circle cx="890" cy="54" r="2"/><circle cx="912" cy="76" r="2"/><circle cx="890" cy="98" r="2"/><circle cx="868" cy="76" r="2"/></g>
+    <line id="jarumJam" x1="890" y1="76" x2="890" y2="62" stroke="#232638" stroke-width="3.5" stroke-linecap="round"/>
+    <line id="jarumMenit" x1="890" y1="76" x2="890" y2="55" stroke="#232638" stroke-width="2.2" stroke-linecap="round"/>
+    <circle cx="890" cy="76" r="2.6" fill="#D08C8C"/>
+  </g>
+
+  <!-- shelf (shop hotspot) -->
+  <g id="hs-rak" class="hot" tabindex="0" role="button" aria-label="Rak: buka toko" data-en-aria-label="Shelf: open the shop">
+    <rect x="720" y="170" width="230" height="12" rx="2" fill="#9A6744"/>
+    <rect x="732" y="118" width="16" height="52" fill="#D08C8C"/>
+    <rect x="750" y="126" width="14" height="44" fill="#86A97E"/>
+    <rect x="766" y="112" width="18" height="58" fill="#EFE6D2"/>
+    <rect x="786" y="130" width="12" height="40" fill="#5E6E96" transform="rotate(8 792 150)"/>
+    <text x="835" y="206" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="16" fill="#AEB6C8" data-en="shop">toko</text>
+    <!-- record player (item) -->
+    <g id="item-piringan" class="item">
+      <rect x="812" y="146" width="84" height="24" rx="3" fill="#3B2B25"/>
+      <g class="piring" id="piring"><ellipse cx="852" cy="142" rx="30" ry="7" fill="#15161f"/><ellipse cx="852" cy="142" rx="9" ry="2.4" fill="#D08C8C"/></g>
+      <line x1="886" y1="136" x2="866" y2="144" stroke="#AEB6C8" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- lamp glow -->
+  <ellipse id="cahayaLampu" cx="700" cy="420" rx="300" ry="150" fill="url(#cahaya)"/>
+  <ellipse cx="510" cy="350" rx="170" ry="110" fill="url(#layarGlow)"/>
+
+  <!-- plant (item) -->
+  <g id="item-tanaman" class="item">
+    <path d="M110 345 Q70 300 96 262 Q118 300 112 345" fill="#6E8C6A"/>
+    <path d="M118 345 Q120 280 160 262 Q158 310 124 345" fill="#86A97E"/>
+    <path d="M114 348 Q92 320 60 318 Q78 344 112 352" fill="#86A97E"/>
+    <path d="M122 348 Q150 324 176 328 Q160 350 124 354" fill="#6E8C6A"/>
+    <path d="M92 350 L148 350 L140 408 L100 408 Z" fill="#C98A62"/>
+    <rect x="88" y="346" width="64" height="10" rx="2" fill="#B97A55"/>
+  </g>
+
+  <!-- standing fan (shop item) -->
+  <g id="item-kipas" class="item">
+    <rect x="18" y="352" width="5" height="240" fill="#3A4466"/>
+    <ellipse cx="20" cy="594" rx="18" ry="5" fill="#2A3150"/>
+    <circle cx="20" cy="330" r="24" fill="none" stroke="#AEB6C8" stroke-width="2.5"/>
+    <g class="baling"><ellipse cx="20" cy="318" rx="5" ry="11" fill="#CFE0E8"/><ellipse cx="30" cy="336" rx="5" ry="11" fill="#CFE0E8" transform="rotate(120 30 336)"/><ellipse cx="10" cy="336" rx="5" ry="11" fill="#CFE0E8" transform="rotate(-120 10 336)"/></g>
+    <circle cx="20" cy="330" r="4" fill="#3A4466"/>
+  </g>
+
+  <!-- desk -->
+  <rect x="40" y="408" width="920" height="20" rx="3" fill="#9A6744"/>
+  <rect x="60" y="428" width="880" height="172" fill="#7A4E33"/>
+  <rect x="80" y="448" width="260" height="70" rx="3" fill="none" stroke="#6A4129" stroke-width="3"/>
+  <circle cx="210" cy="483" r="4" fill="#C9A06B"/>
+
+  <!-- framed photo (gift, bab 1) -->
+  <g id="item-bingkai" class="item">
+    <rect x="186" y="350" width="68" height="58" rx="2" fill="#9A6744"/>
+    <rect x="192" y="356" width="56" height="46" fill="#F3D1A0"/>
+    <rect x="200" y="378" width="40" height="24" fill="#EFE6D2"/>
+    <path d="M196 380 L244 380 L237 369 L203 369 Z" fill="#D08C8C"/>
+    <rect x="215" y="386" width="10" height="16" fill="#7A4E33"/>
+    <circle cx="236" cy="363" r="4" fill="#E9A97C"/>
+  </g>
+
+  <!-- mug -->
+  <g>
+    <g fill="none" stroke="#EFE6D2" stroke-width="2.5" stroke-linecap="round">
+      <path class="uap" d="M292 362 q-8 -10 0 -20 q8 -10 0 -20"/>
+      <path class="uap" d="M304 364 q-8 -10 0 -20 q8 -10 0 -20"/>
+      <path class="uap" d="M316 362 q-8 -10 0 -20 q8 -10 0 -20"/>
+    </g>
+    <path d="M334 380 q18 0 18 14 q0 14 -18 14" fill="none" stroke="#C07A7A" stroke-width="6"/>
+    <rect x="284" y="370" width="52" height="40" rx="6" fill="#D08C8C"/>
+    <ellipse cx="310" cy="371" rx="26" ry="5" fill="#5A3A2A"/>
+  </g>
+
+  <!-- laptop (work hotspot) -->
+  <g id="hs-laptop" class="hot" tabindex="0" role="button" aria-label="Laptop: mulai bekerja" data-en-aria-label="Laptop: start working">
+    <rect id="laptopBadan" x="418" y="276" width="184" height="126" rx="8" fill="#39425C"/>
+    <rect x="428" y="286" width="164" height="106" rx="3" fill="#CFE0E8"/>
+    <g stroke-linecap="round" stroke-width="4">
+      <line x1="440" y1="302" x2="492" y2="302" stroke="#D08C8C"/>
+      <line x1="452" y1="316" x2="540" y2="316" stroke="#86A97E"/>
+      <line x1="452" y1="330" x2="516" y2="330" stroke="#7A8AA8"/>
+      <line x1="464" y1="344" x2="560" y2="344" stroke="#C99A55"/>
+      <line x1="452" y1="358" x2="500" y2="358" stroke="#7A8AA8"/>
+      <line x1="440" y1="372" x2="480" y2="372" stroke="#D08C8C"/>
+    </g>
+    <path d="M396 402 L624 402 L640 414 L380 414 Z" fill="#AEB6C8"/>
+  </g>
+
+  <!-- anti-spaghetti glasses (gift, bab 8) -->
+  <g id="item-kacamata" class="item">
+    <g fill="#CFE0E8" fill-opacity=".35" stroke="#232638" stroke-width="2.5"><ellipse cx="478" cy="420" rx="11" ry="7"/><ellipse cx="506" cy="420" rx="11" ry="7"/></g>
+    <path d="M489 419 q3 -3 6 0" fill="none" stroke="#232638" stroke-width="2"/>
+    <path d="M467 418 l-10 -4 M517 418 l10 -4" stroke="#232638" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- golden flashdisk (gift, bab 9) -->
+  <g id="item-flashdisk" class="item">
+    <rect x="722" y="400" width="22" height="9" rx="2" fill="#E9C46A"/><rect x="744" y="402" width="6" height="5" fill="#AEB6C8"/><circle cx="727" cy="404.5" r="1.5" fill="#C8434F"/>
+  </g>
+
+  <!-- phone -->
+  <g id="hs-hp" class="hot" tabindex="0" role="button" aria-label="Ponsel: lihat pesan" data-en-aria-label="Phone: read messages">
+    <rect x="650" y="396" width="62" height="14" rx="4" fill="#1E2233"/>
+    <rect id="hpLayar" x="656" y="398" width="50" height="9" rx="2" fill="#39425C"/>
+    <circle id="hpNotif" class="hp-notif" cx="712" cy="394" r="6" fill="#D08C8C" style="display:none"/>
+  </g>
+
+  <!-- lamp -->
+  <g>
+    <ellipse cx="800" cy="408" rx="44" ry="8" fill="#232638"/>
+    <line x1="800" y1="404" x2="770" y2="320" stroke="#232638" stroke-width="7" stroke-linecap="round"/>
+    <line x1="770" y1="320" x2="720" y2="286" stroke="#232638" stroke-width="7" stroke-linecap="round"/>
+    <path d="M690 268 L748 296 L730 330 L672 302 Z" fill="#D08C8C"/>
+    <ellipse cx="700" cy="318" rx="24" ry="8" fill="#F4C979" transform="rotate(26 700 318)"/>
+  </g>
+
+  <!-- cat (item) -->
+  <g id="item-kucing" class="item">
+    <g id="hs-kucing" class="hot" tabindex="0" role="button" aria-label="Mochi si kucing: elus" data-en-aria-label="Mochi the cat: pet her">
+      <path d="M866 408 q60 6 72 -10" fill="none" stroke="#D98F4E" stroke-width="9" stroke-linecap="round"/>
+      <ellipse cx="880" cy="386" rx="46" ry="24" fill="#E8A25C"/>
+      <path d="M860 372 q10 -6 24 0" fill="none" stroke="#D98F4E" stroke-width="4"/>
+      <path d="M876 380 q10 -6 24 0" fill="none" stroke="#D98F4E" stroke-width="4"/>
+      <circle cx="846" cy="382" r="20" fill="#E8A25C"/>
+      <path d="M830 370 L832 350 L846 364 Z" fill="#E8A25C"/>
+      <path d="M852 364 L864 350 L864 370 Z" fill="#E8A25C"/>
+      <path d="M836 384 q4 3 8 0 M850 384 q4 3 8 0" fill="none" stroke="#5A3A2A" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="847" cy="390" r="1.8" fill="#C0605F"/>
+    </g>
+  </g>
+  <rect id="kilatLayar" width="1000" height="600" fill="#E8F1FF" opacity="0" pointer-events="none"/>
+</svg>
+
+<!-- TITLE -->
+<section id="screen-title" class="screen active">
+  <div class="kartu">
+    <div class="pilih-bahasa" role="group" aria-label="Bahasa / Language">
+      <button type="button" data-lang="id" aria-pressed="true">ID</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <h1 class="judul-game">CodeQuest</h1>
+    <p id="teksJudul">Studio kecilmu sudah siap. Hujan turun, teh masih hangat, dan klien pertamamu sebentar lagi mengirim pesan.</p>
+    <div class="baris-tombol" id="titleButtons"></div>
+    <p class="kecil" data-en="Headphones recommended. Your progress is saved automatically in this browser.">Pakai headphone kalau bisa. Progresmu tersimpan otomatis di browser ini.</p>
+  </div>
+</section>
+
+<!-- STUDIO -->
+<section id="screen-studio" class="screen">
+  <div class="topbar">
+    <div class="tabungan"><span data-en="Savings">Tabungan</span> <span id="uangStudio">Rp0</span></div>
+    <div class="tabungan reputasi" id="reputasiStudio" style="display:none"></div>
+    <div class="spacer"></div>
+    <button class="ikon-btn" id="btnAtur" aria-label="Pengaturan" data-en-aria-label="Settings">⚙</button>
+  </div>
+  <div class="bisikan" id="bisikan"></div>
+  <div class="dock">
+    <button class="tombol" id="btnKerja" data-en="Open laptop">Buka laptop</button>
+    <button class="tombol garis" id="btnToko" data-en="Shop">Toko</button>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="screen-work" class="screen">
+  <header class="work-top">
+    <button class="tombol garis" id="btnMeja" style="padding:7px 12px;font-size:14px" data-en="← Desk">← Meja</button>
+    <div>
+      <h1 id="judulTugas">Papan nama warung</h1>
+      <div class="klien" id="infoTugas">Pesanan 1 dari 6 · Warung Kopi Senja</div>
+    </div>
+    <div class="spacer"></div>
+    <div class="tabungan reputasi" id="reputasiKerja" style="display:none"></div>
+    <div class="tabungan"><span data-en="Savings">Tabungan</span> <span id="uangKerja">Rp0</span></div>
+  </header>
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-p="p-pesan" aria-selected="true" data-en="Messages">Pesan</button>
+    <button role="tab" data-p="p-kode" aria-selected="false" data-en="Code">Kode</button>
+    <button role="tab" data-p="p-lihat" aria-selected="false" data-en="Preview">Pratinjau</button>
+  </nav>
+  <div class="kolom">
+    <section class="panel on" id="p-pesan" aria-label="Pesan klien" data-en-aria-label="Client messages">
+      <div class="chat-head"><div class="avatar" id="chatAvatar">S</div><div><span id="chatNama">Bu Sari</span><small id="chatUsaha">Warung Kopi Senja</small></div><img id="fotoWarung" class="foto-warung" alt="Foto Warung Kopi Senja di bingkai. Warnanya kembali setiap kode dirapikan." title="Foto warung di bingkai" data-en-alt="Framed photo of Warung Kopi Senja. Its colour returns each time the code is cleaned up." data-en-title="The framed photo of the warung" hidden></div>
+      <div class="chat" id="chat" aria-live="polite">
+        <div class="mengetik" id="mengetik"><i></i><i></i><i></i></div>
+      </div>
+      <div class="sticky">
+        <h2 id="stickyJudul">Yang diminta Bu Sari</h2>
+        <ul id="ceklis"></ul>
+      </div>
+    </section>
+    <section class="panel" id="p-kode" aria-label="Editor kode" data-en-aria-label="Code editor">
+      <div class="file-tab"><b>index.html</b><span class="aset" id="aset" aria-label="File dari klien" data-en-aria-label="Files from the client"></span><span class="spacer"></span><span id="simpanStatus">tersimpan</span></div>
+      <div class="editor">
+        <pre id="sorot" aria-hidden="true"></pre>
+        <textarea id="kode" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Kode index.html" data-en-aria-label="index.html code"></textarea>
+      </div>
+      <div class="konsol" id="konsol">Konsol: tidak ada error.</div>
+      <div class="aksi">
+        <button class="tombol garis" id="btnCatatan" data-en="Notebook">Buku catatan</button>
+        <span class="spacer"></span>
+        <button class="tombol" id="btnKirim">Kirim ke Bu Sari</button>
+      </div>
+    </section>
+    <section class="panel" id="p-lihat" aria-label="Pratinjau website" data-en-aria-label="Website preview">
+      <div class="browser-bar">
+        <div class="url" id="urlBar">warungkopisenja.id</div>
+        <div class="seg" role="group" aria-label="Ukuran layar" data-en-aria-label="Screen size">
+          <button id="vLaptop" aria-pressed="true">Laptop</button>
+          <button id="vHp" aria-pressed="false" data-en="Phone">HP</button>
+        </div>
+      </div>
+      <div class="stage" id="stage"><iframe id="pratinjau" title="Pratinjau website" data-en-title="Website preview" sandbox="allow-scripts allow-popups allow-forms"></iframe></div>
+    </section>
+  </div>
+</section>
+
+
+<!-- DIALOGS -->
+<dialog id="dNama"><form method="dialog" class="dlg" id="formNama">
+  <h2 data-en="Freelancer profile">Profil freelancer</h2>
+  <p data-en="Clients will call you by this name.">Klien akan memanggilmu dengan nama ini.</p>
+  <input type="text" id="inNama" maxlength="20" placeholder="Nama panggilanmu" data-en-placeholder="Your nickname" required>
+  <div class="baris-tombol"><button class="tombol" value="ok" data-en="Open the studio">Buka studio</button></div>
+</form></dialog>
+
+<dialog id="dCatatan"><div class="dlg" id="isiCatatan"></div></dialog>
+<dialog id="dToko"><div class="dlg" id="isiToko"></div></dialog>
+<dialog id="dAtur"><div class="dlg atur" id="isiAtur"></div></dialog>
+<dialog id="dSelesai"><div class="dlg" id="isiSelesai"></div></dialog>
+<dialog id="dCerita"></dialog>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<dialog id="dFile"><div class="dlg" id="isiFile"></div></dialog>
+<dialog id="dTanya"><form method="dialog" class="dlg">
+  <h2 id="tanyaJudul">Yakin?</h2>
+  <p id="tanyaTeks"></p>
+  <div class="baris-tombol"><button class="tombol garis" value="tidak" data-en="Cancel">Batal</button><button class="tombol bahaya" value="ya" id="tanyaYa">Ya</button></div>
+</form></dialog>
+
+<script src="js/lang-en.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>
